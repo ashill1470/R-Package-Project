@@ -13,3 +13,19 @@ test_that("df_apply works", {
     C = c("foo", "bar", "baz")
   ))
 })
+
+df_2 <- data.frame(
+  A = c(1/3, 2/4, 3.5),
+  B = c(10,100,"cat"),
+  C = c("orange", "blue", "red")
+)
+
+test_that("df_apply works", {
+  expect_equal(
+    df_apply(df_2, function(x) x * 2, function(x) is.numeric(x)),
+    data.frame(
+      A = c(2/3, 1, 7),
+      B = c(10, 100, "cat"),
+      C = c("orange", "blue", "red")
+    ))
+})
