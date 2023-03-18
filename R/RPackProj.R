@@ -24,3 +24,24 @@
 #' @references https://www.kaggle.com/datasets/matthiaskleine/standard-populations-dataset?resource=download
 #' @usage data(population)
 NULL
+
+#' Collection of world wide standard populations (in millions) used for age standardization
+#'
+#' The variables are as follows:
+#'
+#' \itemize{
+#'    \item Index of Serial Number: The index of languages
+#'    \item Name of the Languages : Names of the languages
+#'    \item Name of the Family : Name of subordination of the language
+#'    \item Name of the Branch : Naming conventions for language branches
+#'    \item First Languages or (Native Languages): First Languages or Native Languages
+#'    \item Second Languages or (Neighboring Language) : Secondary or further
+#'    \item Total Speakers (L1+L2) : Total speakers in the world
+#' }
+#'
+#' @name population
+#' @docType data
+#' @author Raj Kumar Pandey, Uploaded by Yuqian Wang
+#' @references https://www.kaggle.com/datasets/rajkumarpandey02/list-of-languages-by-total-number-of-speakers?resource=download
+#' @usage data(World - Wide Most Spoken Languages)
+NULL
