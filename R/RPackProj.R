@@ -34,7 +34,7 @@ NULL
 #'    \item Name of the Languages : Names of the languages
 #'    \item Name of the Family : Name of subordination of the language
 #'    \item Name of the Branch : Naming conventions for language branches
-#'    \item First Languages or (Native Languages): First Languages or (Native Languages)
+#'    \item First Languages or (Native Languages): First Languages or Native Languages
 #'    \item Second Languages or (Neighboring Language) : Secondary or further
 #'    \item Total Speakers (L1+L2) : Total speakers in the world
 #' }
