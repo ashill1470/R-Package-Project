@@ -19,6 +19,9 @@
 #' df_apply(df, my_fun, my_filter)
 df_apply <- function(.data, .fun, .filter, ...) {
   modified_columns <- lapply(.data, function(x) {
+    if (!is.data.frame(.data)){
+      stop("Data must be a dataframe!")
+    }
     if (.filter(x)){
       .fun(x, ...)
     } else {
