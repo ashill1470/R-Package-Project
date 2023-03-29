@@ -6,7 +6,7 @@ df <- data.frame(
 
 test_that("df_apply works", {
   expect_equal(
-  df_apply(df, function(x) x * 2, function(x) is.numeric(x)),
+  df_apply(df, function(x) x * 2, is.numeric),
   data.frame(
     A = c(2, 4, 6),
     B = c(8, 10, 12),
@@ -22,10 +22,18 @@ df_2 <- data.frame(
 
 test_that("df_apply works", {
   expect_equal(
-    df_apply(df_2, function(x) x * 2, function(x) is.numeric(x)),
+    df_apply(df_2, function(x) x * 2, is.numeric),
     data.frame(
       A = c(2/3, 1, 7),
       B = c(10, 100, "cat"),
       C = c("orange", "blue", "red")
     ))
+})
+
+not_df <- c(12, 13, 14, 15)
+
+test_that("df_apply works", {
+  expect_error(
+    df_apply(not_df, function(x) x * 2, is.numeric)
+  )
 })
