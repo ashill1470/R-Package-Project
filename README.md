@@ -1,3 +1,3 @@
 # R-Package-Project
 
-Authors: R, A, E
+Authors: Andrew, Richmond, 
