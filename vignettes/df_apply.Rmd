@@ -61,7 +61,7 @@ df1 <- data.frame(
   C = c("foo", "bar", "baz")
 )
 
-new_df1 <- df_apply(df1, function(x) x * 2, is.numeric)
+new_df1 <- df_apply(.data = df1, .fun = function(x) x * 2, .filter = is.numeric)
 
 new_df1
 ```
@@ -74,7 +74,7 @@ df2 <- data.frame(
   C = c(7.846, 8.186, 9.945)
 )
 
-new_df2 <- df_apply(df2, round, is.numeric)
+new_df2 <- df_apply(.data = df2, .fun = round, .filter = is.numeric)
 
 new_df2
 ```
@@ -87,8 +87,20 @@ to_thousands <- function(x) {
   x * 1000
 }
 
-new_pop <- df_apply(population, to_thousands, is.integer)
+new_pop <- df_apply(.data = population, .fun = to_thousands, .filter = is.integer)
 
 glimpse(new_pop)
 ```
+
+
+```{r}
+df3 <- data.frame(
+   D = c(5, 5, 8, 3),
+   E = c(4, 7, 4, 2),
+   F = c(8, 10, 3, 4))
+my_fun <- function(x, multiplier) x * multiplier
+my_filter <- is.numeric
+df_apply(.data = df3, .fun = my_fun, .filter = my_filter, multiplier = 2)
+```
+
 

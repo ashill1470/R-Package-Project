@@ -17,6 +17,15 @@
 #' my_fun <- function(x) x * 2
 #' my_filter <- is.numeric
 #' df_apply(df, my_fun, my_filter)
+#'
+#' df2 <- data.frame(
+#'   D = c(NA, 5, 8, 3),
+#'   E = c(4, NA, 4, 2),
+#'   F = c(8, 10, 3, 4))
+#' my_fun <- function(x, multiplier) x * multiplier
+#' my_filter <- is.numeric
+#' df_apply(.data = df2, .fun = my_fun, .filter = my_filter, multiplier = 2)
+#'
 df_apply <- function(.data, .fun, .filter, ...) {
   modified_columns <- lapply(.data, function(x) {
     stopifnot(".data must be a dataframe"=is.data.frame(.data))
