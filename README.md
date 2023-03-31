@@ -9,7 +9,7 @@
 The goal of RPackProj is to use `df_apply` function to deal with
 changing values of certain columns in a data frame.
 
-Authors: Andrew Hill, Richmond Yevudza, and Yuquian Wang
+Authors: Andrew Hill, Richmond Yevudza, and Yuqian Wang
 
 ## Installation
 
