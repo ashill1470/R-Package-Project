@@ -16,6 +16,9 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(RPackProj)
+
+# Added so we can glimpse at the data
+library(pillar)
 ```
 
 
@@ -77,7 +80,7 @@ new_df2
 ```
 
 ```{r}
-head(population)
+glimpse(population)
 
 # Lets convert the population from millions into thousands
 to_thousands <- function(x) {
@@ -86,6 +89,6 @@ to_thousands <- function(x) {
 
 new_pop <- df_apply(population, to_thousands, is.integer)
 
-head(new_pop)
+glimpse(new_pop)
 ```
 
