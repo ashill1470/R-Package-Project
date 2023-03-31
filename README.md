@@ -35,15 +35,11 @@ df <- data.frame(
   C = c("foo", "bar", "baz")
 )
 
-df_apply(df, function(x) x * 2, is.numeric)
+new_df <- df_apply(df, function(x) x * 2, is.numeric)
+
+new_df
 #>   A  B   C
 #> 1 2  8 foo
 #> 2 4 10 bar
 #> 3 6 12 baz
-
-df
-#>   A B   C
-#> 1 1 4 foo
-#> 2 2 5 bar
-#> 3 3 6 baz
 ```

@@ -44,7 +44,7 @@ df <- data.frame(
   C = c("foo", "bar", "baz")
 )
 
-df_apply(df, function(x) x * 2, is.numeric)
+new_df <- df_apply(df, function(x) x * 2, is.numeric)
 
-df
+new_df
 ```
