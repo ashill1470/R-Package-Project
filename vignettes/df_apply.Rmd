@@ -76,3 +76,16 @@ new_df2 <- df_apply(df2, round, is.numeric)
 new_df2
 ```
 
+```{r}
+head(population)
+
+# Lets convert the population from millions into thousands
+to_thousands <- function(x) {
+  x * 1000
+}
+
+new_pop <- df_apply(population, to_thousands, is.integer)
+
+head(new_pop)
+```
+
