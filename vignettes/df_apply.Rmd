@@ -1,0 +1,78 @@
+---
+title: "df_apply()"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{df_apply()}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(RPackProj)
+```
+
+
+## Overview
+
+The df_apply() function takes a data frame and applies a given function to specified columns and returns a modified version of the original data frame with the function applied.
+
+
+## Usage
+
+``` r
+df_apply(
+  .data = ..., 
+  .fun = ..., 
+  .filter = ...,
+  ...
+)
+```
+
+## Arguments
+
+#### .data
+
+  This is a data frame that we want the function applied to
+  
+#### .fun
+
+  This is the function we want applied to the given columns
+  
+#### .filter
+  
+  This is a function that can be applied to a column of a data frame. This filters down the columns we want the function applied to.
+
+## Examples
+
+```{r}
+df1 <- data.frame(
+  A = c(1, 2, 3),
+  B = c(4, 5, 6),
+  C = c("foo", "bar", "baz")
+)
+
+new_df1 <- df_apply(df1, function(x) x * 2, is.numeric)
+
+new_df1
+```
+
+
+```{r}
+df2 <- data.frame(
+  A = c(1.875, 2.654, 3.676),
+  B = c(4.169, 5.456, 6.289),
+  C = c(7.846, 8.186, 9.945)
+)
+
+new_df2 <- df_apply(df2, round, is.numeric)
+
+new_df2
+```
+
