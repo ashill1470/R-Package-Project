@@ -17,6 +17,8 @@ You can install the development version of RPackProj from
 [GitHub](https://github.com/) with:
 <https://github.com/ashill1470/RPackProj>
 
+Website: <https://ashill1470.github.io/RPackProj/>
+
 ``` r
 # install.packages("devtools")
 devtools::install_github("ashill1470/RPackProj")
