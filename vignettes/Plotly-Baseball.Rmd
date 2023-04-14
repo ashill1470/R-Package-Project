@@ -17,6 +17,8 @@ knitr::opts_chunk$set(
 ```{r setup}
 library(RPackProj)
 library(plotly)
+library(tidyverse)
+library(dplyr)
 ```
 
 ## Plotly Basics
@@ -27,7 +29,7 @@ To get started, just call the plotting function `plot_ly()`. The most basic plot
 
 ```{r message=FALSE, warning=FALSE}
 tigers <- baseball |>
-  filter(teamID=='DET')
+  filter(teamID %in% c('DET'))
 plot_ly(data=tigers, x=~yearID, y=~W, type = 'scatter')
 ```
 
@@ -81,6 +83,63 @@ plot_ly(data=tigers_and_cubs, x=~yearID, y=~W, type = 'scatter', color=~teamID)
 
 
 
+### Animations 
+
+```{r}
+accumulate_by <- function(dat, var) {
+  var <- lazyeval::f_eval(var, dat)
+  lvls <- plotly:::getLevels(var)
+  dats <- lapply(seq_along(lvls), function(x) {
+    cbind(dat[var %in% lvls[seq(1, x)], ], frame = lvls[[x]])
+  })
+  dplyr::bind_rows(dats)
+}
+
+
+df <- baseball %>% 
+  filter(teamID %in% c('DET', 'CHA'))
+fig <- df 
+fig <- fig %>% accumulate_by(~yearID)
+
+fig <- fig %>%
+  plot_ly(
+    x = ~yearID, 
+    y = ~winPercentage,
+    split = ~teamID,
+    frame = ~frame, 
+    type = 'scatter',
+    mode = 'lines', 
+    line = list(simplyfy = F)
+  )
+
+fig <- fig %>% layout(
+  xaxis = list(
+    title = "Year",
+    zeroline = F
+  ),
+  yaxis = list(
+    title = "Winning Percentage",
+    zeroline = F
+  )
+) 
+
+fig <- fig %>% animation_opts(
+  frame = 500, 
+  transition = 0, 
+  redraw = FALSE
+)
+
+fig <- fig %>% animation_slider(
+  hide = F
+)
+
+fig <- fig %>% animation_button(
+  x = 1, xanchor = "right", y = 0, yanchor = "bottom"
+)
+
+
+fig
+```
 
 
 
