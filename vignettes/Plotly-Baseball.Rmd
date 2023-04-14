@@ -1,0 +1,87 @@
+---
+title: "Plotly-Baseball"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Plotly-Baseball}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(RPackProj)
+library(plotly)
+```
+
+## Plotly Basics
+
+Plotly is an R package that creates high quality, interactive plots and graphs. 
+
+To get started, just call the plotting function `plot_ly()`. The most basic plot you can make in plotly is a scatterplot:
+
+```{r message=FALSE, warning=FALSE}
+tigers <- baseball |>
+  filter(teamID=='DET')
+plot_ly(data=tigers, x=~yearID, y=~W, type = 'scatter')
+```
+
+By including `marker()`, you can do other customization, like changing the point color.
+
+```{r message=FALSE, warning=FALSE}
+plot_ly(data=tigers, x=~yearID, y=~W, type = 'scatter', 
+        marker = list(size = 7.5,
+               color = 'orange')
+        )
+```
+
+Use the pipe operator and you can include proper labeling. 
+
+```{r message=FALSE, warning=FALSE}
+plot_ly(data=tigers, x=~yearID, y=~W, type='scatter', 
+        marker = list(size = 7.5,
+               color = 'orange')
+        ) |>
+  layout(
+    title = 'Detroit Wins since 1901',
+    xaxis = list(title = 'Year'),
+    yaxis = list(title = 'Wins')
+  )
+```
+
+What if we wanted to 'connect the dots'? Just add `mode = 'lines'`
+
+```{r}
+plot_ly(data=tigers, x=~yearID, y=~W, type='scatter', mode = 'lines') |>
+  layout(
+    title = 'Detroit Wins since 1901',
+    xaxis = list(title = 'Year'),
+    yaxis = list(title = 'Wins')
+  ) 
+```
+
+What if you want to have scatterplots of multiple teams?
+
+```{r}
+tigers_and_cubs <- baseball |>
+  filter(yearID >= 1901) |>
+  filter(franchID %in% c('DET', 'CHC')) 
+plot_ly(data=tigers_and_cubs, x=~yearID, y=~W, type = 'scatter', color=~teamID)
+```
+
+
+
+
+
+
+
+
+
+
+
+
