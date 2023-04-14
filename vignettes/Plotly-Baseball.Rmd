@@ -19,7 +19,17 @@ library(RPackProj)
 library(plotly)
 library(tidyverse)
 library(dplyr)
+data(baseball)
 ```
+
+```{r}
+baseball <- baseball |>
+  mutate(
+    winPercentage = W/G,
+    battingAvg = H/AB
+  )
+```
+
 
 ## Plotly Basics
 
@@ -70,22 +80,24 @@ plot_ly(data=tigers, x=~yearID, y=~W, type='scatter', mode = 'lines') |>
 What if you want to have scatterplots of multiple teams?
 
 ```{r}
-tigers_and_cubs <- baseball |>
+tigersCubsPhils <- baseball |>
   filter(yearID >= 1901) |>
-  filter(franchID %in% c('DET', 'CHC')) 
-plot_ly(data=tigers_and_cubs, x=~yearID, y=~W, type = 'scatter', color=~teamID)
+  filter(franchID %in% c('DET', 'CHC', 'PHI')) 
+plot_ly(data=tigersCubsPhils, x=~yearID, y=~W,
+        type = 'scatter', color=~teamID)
 ```
-
-
-
-
-
 
 
 
 ### Animations 
 
+One thing that makes plotly special is its addition of animations and interactivity.
+
+In the example below, we'll look at the Detroit Tigers Winning Percentage over the years. 
+
 ```{r}
+# Plotly's accumulate function. Have to run seperately because it is not 
+#   built into the plotly package
 accumulate_by <- function(dat, var) {
   var <- lazyeval::f_eval(var, dat)
   lvls <- plotly:::getLevels(var)
@@ -95,12 +107,11 @@ accumulate_by <- function(dat, var) {
   dplyr::bind_rows(dats)
 }
 
-
-df <- baseball %>% 
-  filter(teamID %in% c('DET', 'CHA'))
-fig <- df 
+# Create the figure and add the accumulate_by() function
+fig <- tigers
 fig <- fig %>% accumulate_by(~yearID)
 
+# Start creating the figure
 fig <- fig %>%
   plot_ly(
     x = ~yearID, 
@@ -112,35 +123,53 @@ fig <- fig %>%
     line = list(simplyfy = F)
   )
 
+# Labels the x-axis
 fig <- fig %>% layout(
   xaxis = list(
     title = "Year",
     zeroline = F
   ),
+  # Labels the y-axis
   yaxis = list(
     title = "Winning Percentage",
     zeroline = F
   )
 ) 
 
+# Sets animation settings
 fig <- fig %>% animation_opts(
   frame = 500, 
   transition = 0, 
   redraw = FALSE
 )
 
+# Hide or Display the animation slider
 fig <- fig %>% animation_slider(
   hide = F
 )
 
+# Set where the Play button will be on the plot
 fig <- fig %>% animation_button(
   x = 1, xanchor = "right", y = 0, yanchor = "bottom"
 )
 
-
+# Display the plot
 fig
 ```
 
+Now we can see how the Detroit Tigers winning percentage has changed year over year since 1901. You can see they've had some good years (like 1934 and 1984), but also some really poor years (like 1952 and 2003). 
 
 
+### 3-D Plots
+
+Another cool feature that plotly has is its ability to create interactive 3-d plots.
+
+```{r}
+fig <- plot_ly(tigers, x = ~double, y = ~triple, z = ~HR, 
+               marker=list(size = 3, color =~yearID, showscale=TRUE)) |>
+  add_markers() 
+fig
+```
+
+This plot isn't super helpful if you are doing an analysis of extra-base hits over time, but it does reveal some trends such as how triples have decreased over time while home runs have increased.
 
