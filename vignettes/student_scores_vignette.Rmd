@@ -1,0 +1,34 @@
+---
+title: "Visualizing Student Scores with Plotly"
+author: "Richmond Yevudza"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Visualizing Student Scores with Plotly}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+library(plotly)
+library(dplyr)
+library(knitr)
+
+library(RPackProj)
+data("student")
+
+str(student)
+head(student)
+
+plot <- plot_ly(data = student, x = ~name, y = ~mark, type = "bar") %>%
+  layout(title = "Student Scores",
+         xaxis = list(title = "Student Names"),
+         yaxis = list(title = "Scores"))
+
+plot
+
+
+
