@@ -1,5 +1,6 @@
 ---
 title: "Visualizing Student Scores with Plotly"
+author: "Richmond Yevudza"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Visualizing Student Scores with Plotly}
@@ -20,13 +21,77 @@ library(RPackProj)
 library(plotly)
 ```
 
+## Load Package and Data
+
 ```{r message=FALSE, warning=FALSE}
 data("student")
-plot <- plot_ly(data = student, x = ~name, y = ~mark, type = "bar") %>%
+```
+
+## Plotly Basics
+
+Plotly is an R package that creates high-quality, interactive plots and graphs.
+
+Create a Bar Chart using Plotly
+
+To get started, just call the plotting function plot_ly(). The most basic plot you can make in Plotly is a bar chart: 
+
+```{r message=FALSE, warning=FALSE}
+plot_bar <- plot_ly(data = student, x = ~name, y = ~mark, type = "bar") %>%
   layout(title = "Student Scores",
          xaxis = list(title = "Student Names"),
          yaxis = list(title = "Scores"))
-plot
+
+plot_bar
 ```
 
+## Customizing Bar Chart Colors
 
+By including marker(), you can do other customization, like changing the bar color.
+
+```{r message=FALSE, warning=FALSE}
+plot_bar_custom_colors <- plot_ly(data = student, x = ~name, y = ~mark, type = "bar",
+        marker = list(color = 'orange')) %>%
+  layout(title = "Student Scores",
+         xaxis = list(title = "Student Names"),
+         yaxis = list(title = "Scores"))
+
+plot_bar_custom_colors
+```
+
+## Create a Scatterplot using Plotly
+
+Scatterplots are another popular plot type. You can create a scatterplot by specifying type = 'scatter':
+
+```{r message=FALSE, warning=FALSE}
+plot_scatter <- plot_ly(data = student, x = ~name, y = ~mark, type = 'scatter', mode = 'markers') %>%
+  layout(title = "Student Scores",
+         xaxis = list(title = "Student Names"),
+         yaxis = list(title = "Scores"))
+
+plot_scatter
+```
+
+## Grouped Bar Chart by Gender
+
+Grouped Bar Chart by Gender
+
+```{r message=FALSE, warning=FALSE}
+plot_grouped_bar <- plot_ly(data = student, x = ~name, y = ~mark, type = "bar", color = ~gender) %>%
+  layout(title = "Student Scores by Gender",
+         xaxis = list(title = "Student Names"),
+         yaxis = list(title = "Scores"))
+
+plot_grouped_bar
+```
+
+## Create a Box Plot using Plotly
+
+Box plots are useful for visualizing the distribution of data. To create a box plot, specify type = 'box':
+
+```{r message=FALSE, warning=FALSE}
+plot_box <- plot_ly(data = student, y = ~mark, type = 'box') %>%
+  layout(title = "Distribution of Student Scores",
+         yaxis = list(title = "Scores"))
+
+plot_box
+```
