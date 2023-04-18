@@ -12,7 +12,9 @@
 #'   \item{W, L}{Wins, Losses}
 #'   \item{AB, H, double, triple, HR, BB, SO}{At-Bats, Hits, Doubles, Triples, Home Runs, Walks, Strikeouts}
 #' }
+#' @name baseball
 #' @source <https://baseballsavant.mlb.com/#>
 #' @docType data
 #' @author BaseballSavant Maintainers, Found and uploaded by Andrew Hill
 #' @usage data(baseball)
+"baseball"

@@ -15,14 +15,13 @@ knitr::opts_chunk$set(
 ```
 
 ```{r setup}
-install.packages('plotly')
-install.packages('tidyverse')
-install.packages("dplyr")
+#install.packages('plotly')
+#install.packages('tidyverse')
+#install.packages("dplyr")
 library(RPackProj)
 library(plotly)
 library(tidyverse)
 library(dplyr)
-data(baseball)
 ```
 
 ```{r}
@@ -111,11 +110,11 @@ accumulate_by <- function(dat, var) {
 }
 
 # Create the figure and add the accumulate_by() function
-fig <- tigers
-fig <- fig %>% accumulate_by(~yearID)
+base <- tigers
+base <- base %>% accumulate_by(~yearID)
 
 # Start creating the figure
-fig <- fig %>%
+base <- base %>%
   plot_ly(
     x = ~yearID, 
     y = ~winPercentage,
@@ -127,7 +126,7 @@ fig <- fig %>%
   )
 
 # Labels the x-axis
-fig <- fig %>% layout(
+base <- base %>% layout(
   xaxis = list(
     title = "Year",
     zeroline = F
@@ -140,25 +139,25 @@ fig <- fig %>% layout(
 ) 
 
 # Sets animation settings
-fig <- fig %>% animation_opts(
+base <- base %>% animation_opts(
   frame = 500, 
   transition = 0, 
   redraw = FALSE
 )
 
 # Hide or Display the animation slider
-fig <- fig %>% animation_slider(
+base <- base %>% animation_slider(
   hide = F
 )
 
 # Set where the Play button will be on the plot
-fig <- fig %>% animation_button(
+base <- base %>% animation_button(
   # Tell plotly where to place the button
   x = 1, xanchor = "right", y = 0, yanchor = "bottom"
 )
 
 # Display the plot
-fig
+base
 ```
 
 Now we can see how the Detroit Tigers winning percentage has changed year over year since 1901. You can see they've had some good years (like 1934 and 1984), but also some really poor years (like 1952 and 2003). 
@@ -169,10 +168,10 @@ Now we can see how the Detroit Tigers winning percentage has changed year over y
 Another cool feature that plotly has is its ability to create interactive 3-d plots.
 
 ```{r}
-fig <- plot_ly(tigers, x = ~double, y = ~triple, z = ~HR, 
+threeDBase <- plot_ly(tigers, x = ~double, y = ~triple, z = ~HR, 
                marker=list(size = 3, color =~yearID, showscale=TRUE)) |>
   add_markers() 
-fig
+threeDBase
 ```
 
 This plot isn't super helpful if you are doing an analysis of extra-base hits over time, but it does reveal some trends such as how triples have decreased over time while home runs have increased.
