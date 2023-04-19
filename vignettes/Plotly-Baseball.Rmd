@@ -177,6 +177,6 @@ threeDBase
 This plot isn't super helpful if you are doing an analysis of extra-base hits over time, but it does reveal some trends such as how triples have decreased over time while home runs have increased.
 
 ### Conclusions
-
+ 
 Plotly is great if you want an interactive graph that is easy to create and easy to interpret, while also being applicable to a wide range of use cases. You can create sophisticated data visualizations relatively easily. 
 
