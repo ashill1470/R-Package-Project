@@ -27,13 +27,13 @@
 #' df_apply(.data = df2, .fun = my_fun, .filter = my_filter, multiplier = 2)
 #'
 df_apply <- function(.data, .fun, .filter, ...) {
-  modified_columns <- lapply(.data, function(x) {
-    stopifnot(".data must be a dataframe"=is.data.frame(.data))
+  stopifnot(".data must be a dataframe"=is.data.frame(.data))
+  res <- lapply(.data, function(x) {
     if (.filter(x)){
       .fun(x, ...)
     } else {
       x
     }
   })
-  return(data.frame(modified_columns))
+  return(data.frame(res))
 }

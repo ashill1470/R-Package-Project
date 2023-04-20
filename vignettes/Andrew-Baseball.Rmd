@@ -1,0 +1,181 @@
+---
+title: "Andrew-Baseball"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Andrew-Baseball}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+#install.packages('plotly')
+#install.packages('tidyverse')
+#install.packages("dplyr")
+library(RPackProj)
+library(plotly)
+library(tidyverse)
+library(dplyr)
+```
+
+```{r}
+baseball <- baseball |>
+  mutate(
+    winPercentage = W/G,
+    battingAvg = H/AB
+  )
+```
+
+
+## Plotly Basics
+
+Plotly is an R package that creates high quality, interactive plots and graphs. 
+
+To get started, just call the plotting function `plot_ly()`. The most basic plot you can make in plotly is a scatterplot:
+
+```{r message=FALSE, warning=FALSE}
+tigers <- baseball |>
+  filter(teamID %in% c('DET'))
+plot_ly(data=tigers, x=~yearID, y=~W, type = 'scatter')
+```
+
+By including `marker()`, you can do other customization, like changing the point color.
+
+```{r message=FALSE, warning=FALSE}
+plot_ly(data=tigers, x=~yearID, y=~W, type = 'scatter', 
+        marker = list(size = 7.5,
+               color = 'orange')
+        )
+```
+
+Use the pipe operator and you can include proper labeling. 
+
+```{r message=FALSE, warning=FALSE}
+plot_ly(data=tigers, x=~yearID, y=~W, type='scatter', 
+        marker = list(size = 7.5,
+               color = 'orange')
+        ) |>
+  layout(
+    title = 'Detroit Wins since 1901',
+    xaxis = list(title = 'Year'),
+    yaxis = list(title = 'Wins')
+  )
+```
+
+What if we wanted to 'connect the dots'? Just add `mode = 'lines'`
+
+```{r}
+plot_ly(data=tigers, x=~yearID, y=~W, type='scatter', mode = 'lines') |>
+  layout(
+    title = 'Detroit Wins since 1901',
+    xaxis = list(title = 'Year'),
+    yaxis = list(title = 'Wins')
+  ) 
+```
+
+What if you want to have scatterplots of multiple teams?
+
+```{r}
+tigersCubsPhils <- baseball |>
+  filter(yearID >= 1901) |>
+  filter(franchID %in% c('DET', 'CHC', 'PHI')) 
+plot_ly(data=tigersCubsPhils, x=~yearID, y=~W,
+        type = 'scatter', color=~teamID)
+```
+
+
+
+### Animations 
+
+One thing that makes plotly special is its addition of animations and interactivity.
+
+In the example below, we'll look at the Detroit Tigers Winning Percentage over the years. 
+
+```{r}
+# Plotly's accumulate function. Have to run separately because it is not 
+#   built into the plotly package
+accumulate_by <- function(dat, var) {
+  var <- lazyeval::f_eval(var, dat)
+  lvls <- plotly:::getLevels(var)
+  dats <- lapply(seq_along(lvls), function(x) {
+    cbind(dat[var %in% lvls[seq(1, x)], ], frame = lvls[[x]])
+  })
+  dplyr::bind_rows(dats)
+}
+
+# Create the figure and add the accumulate_by() function
+base <- tigers
+base <- base %>% accumulate_by(~yearID)
+
+# Start creating the figure
+base <- base %>%
+  plot_ly(
+    x = ~yearID, 
+    y = ~winPercentage,
+    split = ~teamID,
+    frame = ~frame, 
+    type = 'scatter',
+    mode = 'lines', 
+    line = list(simplyfy = F)
+  )
+
+# Labels the x-axis
+base <- base %>% layout(
+  xaxis = list(
+    title = "Year",
+    zeroline = F
+  ),
+  # Labels the y-axis
+  yaxis = list(
+    title = "Winning Percentage",
+    zeroline = F
+  )
+) 
+
+# Sets animation settings
+base <- base %>% animation_opts(
+  frame = 500, 
+  transition = 0, 
+  redraw = FALSE
+)
+
+# Hide or Display the animation slider
+base <- base %>% animation_slider(
+  hide = F
+)
+
+# Set where the Play button will be on the plot
+base <- base %>% animation_button(
+  # Tell plotly where to place the button
+  x = 1, xanchor = "right", y = 0, yanchor = "bottom"
+)
+
+# Display the plot
+base
+```
+
+Now we can see how the Detroit Tigers winning percentage has changed year over year since 1901. You can see they've had some good years (like 1934 and 1984), but also some really poor years (like 1952 and 2003). 
+
+
+### 3-D Plots
+
+Another cool feature that plotly has is its ability to create interactive 3-d plots.
+
+```{r}
+threeDBase <- plot_ly(tigers, x = ~double, y = ~triple, z = ~HR, 
+               marker=list(size = 3, color =~yearID, showscale=TRUE)) |>
+  add_markers() 
+threeDBase
+```
+
+This plot isn't super helpful if you are doing an analysis of extra-base hits over time, but it does reveal some trends such as how triples have decreased over time while home runs have increased.
+
+### Conclusions
+ 
+Plotly is great if you want an interactive graph that is easy to create and easy to interpret, while also being applicable to a wide range of use cases. You can create sophisticated data visualizations relatively easily. 
