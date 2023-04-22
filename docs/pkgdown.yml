@@ -3,10 +3,10 @@ pkgdown: 2.0.7
 pkgdown_sha: ~
 articles:
   Andrew-Baseball: Andrew-Baseball.html
-  Electoral votes vs Popular votes: Electoral votes vs Popular votes.html
+  Electoral_votes_vs_Popular_votes: Electoral_votes_vs_Popular_votes.html
   df_apply: df_apply.html
   student_scores_vignette: student_scores_vignette.html
-last_built: 2023-04-22T01:07Z
+last_built: 2023-04-22T01:18Z
 urls:
   reference: https://ashill1470.github.io/RPackProj/reference
   article: https://ashill1470.github.io/RPackProj/articles
